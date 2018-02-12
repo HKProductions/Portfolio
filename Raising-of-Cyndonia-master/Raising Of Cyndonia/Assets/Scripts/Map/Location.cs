@@ -1,0 +1,25 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Location : MonoBehaviour 
+{
+
+	// Use this for initialization
+	void Start() 
+	{
+		
+	}
+	
+	// Update is called once per frame
+	void Update() 
+	{
+		
+	}
+}
+
+//the locations that you can encounter enemies
+public enum LocationList
+{
+	Cave, Forest, Castle, Dungeon
+}

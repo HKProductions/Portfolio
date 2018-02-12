@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Main Menu.unity
+    guid: 513a51fe0d92f3f43876ce9579d0dc0e
+  - enabled: 1
+    path: Assets/BossStage.unity
+    guid: 1c902d27a11be5d449f1dcc87072c647
+  - enabled: 1
+    path: Assets/Tunnel.unity
+    guid: 59f580e3134ffa348b68112fe08c9aef
+  - enabled: 1
+    path: Assets/Forest.unity
+    guid: e123e06fd3d442244ab99760d54c4132
+  - enabled: 0
+    path: Assets/Trying Something.unity
+    guid: bdee5806017f22049be4d48cb4259649
+  - enabled: 1
+    path: Assets/Credit.unity
+    guid: fbb8b6586adafe24a845c71262d6af51
+  - enabled: 0
+    path: Assets/Main.unity
+    guid: 6e4be912ce8de9746aaf783b6bcce57b
