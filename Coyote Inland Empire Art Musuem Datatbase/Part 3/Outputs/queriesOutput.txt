@@ -1,0 +1,381 @@
+SQL> START testTables.sql
+SQL> /*
+SQL> Project Option: Coyote Inland Empire Art Museum
+SQL> Description: This script is used to create views for the database and test
+SQL> 	     the functionality of the database itself to see if every component
+SQL> 	     works.
+SQL> Author: Hamza Khan 005125350,
+SQL> 	     Edmund Butarbutar 004107869
+SQL> 	     Maira Castaneda 004960185
+SQL> */
+SQL> 
+SQL> -- Show loan and musuem information
+SQL> SELECT L.Artwork_ID, L.Loan_Museum_ID, M.Name, L.Loan_Start_Date, L.Loan_End_Date
+  2  FROM Loan L, Musuem M
+  3  WHERE  M.Musuem_ID = L.Loan_Museum_ID;
+
+ARTWORK_ID LOAN_MUSEU NAME                           LOAN_STAR LOAN_END_                                                                                                                                                                                                                                    
+---------- ---------- ------------------------------ --------- ---------                                                                                                                                                                                                                                    
+217469     5350       Smithsonian                    19-JUN-12 21-AUG-12                                                                                                                                                                                                                                    
+217473     5350       Smithsonian                    30-SEP-12 25-DEC-12                                                                                                                                                                                                                                    
+
+SQL> 
+SQL> -- Create the view for the loan and musuem informatio
+SQL> DROP VIEW loanInfo;
+
+View dropped.
+
+SQL> CREATE VIEW loanInfo AS
+  2  	     SELECT L.Artwork_ID, L.Loan_Museum_ID, M.Name, L.Loan_Start_Date, L.Loan_End_Date
+  3  	     FROM Loan L, Musuem M
+  4  	     WHERE M.Musuem_ID = L.Loan_Museum_ID;
+
+View created.
+
+SQL> 
+SQL> -- Show the loanInfo view and test it
+SQL> DESC loanInfo
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ ARTWORK_ID                                                                                                                                                                    NOT NULL CHAR(10)
+ LOAN_MUSEUM_ID                                                                                                                                                                NOT NULL CHAR(10)
+ NAME                                                                                                                                                                          NOT NULL VARCHAR2(30)
+ LOAN_START_DATE                                                                                                                                                               NOT NULL DATE
+ LOAN_END_DATE                                                                                                                                                                 NOT NULL DATE
+
+SQL> SELECT * FROM loanInfo;
+
+ARTWORK_ID LOAN_MUSEU NAME                           LOAN_STAR LOAN_END_                                                                                                                                                                                                                                    
+---------- ---------- ------------------------------ --------- ---------                                                                                                                                                                                                                                    
+217469     5350       Smithsonian                    19-JUN-12 21-AUG-12                                                                                                                                                                                                                                    
+217473     5350       Smithsonian                    30-SEP-12 25-DEC-12                                                                                                                                                                                                                                    
+
+SQL> SELECT Artwork_ID, Name, Loan_Start_Date, Loan_End_Date
+  2  FROM loanInfo;
+
+ARTWORK_ID NAME                           LOAN_STAR LOAN_END_                                                                                                                                                                                                                                               
+---------- ------------------------------ --------- ---------                                                                                                                                                                                                                                               
+217469     Smithsonian                    19-JUN-12 21-AUG-12                                                                                                                                                                                                                                               
+217473     Smithsonian                    30-SEP-12 25-DEC-12                                                                                                                                                                                                                                               
+
+SQL> 
+SQL> -- Show artwork name and locations
+SQL> SELECT A.Artwork_Name, A.Artwork_Medium, L.Location_ID, L.Location_Address
+  2  FROM Artwork A, Location L
+  3  WHERE L.Location_ID = A.Artwork_Location_ID;
+
+ARTWORK_NAME                   ARTWORK_ME LOCATION_I LOCATION_ADDRESS                                                                                                                                                                                                                                       
+------------------------------ ---------- ---------- ------------------------------                                                                                                                                                                                                                         
+Legend of Clyopatra            Oil        507        Egypt                                                                                                                                                                                                                                                  
+Bust of Hercules               Sculpture  608        Greek                                                                                                                                                                                                                                                  
+Hera                           Painting   501        Greek                                                                                                                                                                                                                                                  
+Davinci Plane                  Sketching  451        Italy                                                                                                                                                                                                                                                  
+Mona Lisa                      Portrait   692        Italy                                                                                                                                                                                                                                                  
+
+SQL> 
+SQL> -- Create a view for an artwork location
+SQL> DROP VIEW artworkLocation;
+
+View dropped.
+
+SQL> CREATE VIEW artworkLocation AS
+  2  	     SELECT A.Artwork_Name, A.Artwork_Medium, L.Location_ID, L.Location_Address
+  3  	     FROM Artwork A, Location L
+  4  	     WHERE L.Location_ID = A.Artwork_Location_ID;
+
+View created.
+
+SQL> 
+SQL> -- Show the artworkLocation view and test it
+SQL> DESC artworkLocation
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ ARTWORK_NAME                                                                                                                                                                           VARCHAR2(30)
+ ARTWORK_MEDIUM                                                                                                                                                                         VARCHAR2(10)
+ LOCATION_ID                                                                                                                                                                   NOT NULL CHAR(10)
+ LOCATION_ADDRESS                                                                                                                                                              NOT NULL VARCHAR2(30)
+
+SQL> SELECT * FROM artworkLocation;
+
+ARTWORK_NAME                   ARTWORK_ME LOCATION_I LOCATION_ADDRESS                                                                                                                                                                                                                                       
+------------------------------ ---------- ---------- ------------------------------                                                                                                                                                                                                                         
+Legend of Clyopatra            Oil        507        Egypt                                                                                                                                                                                                                                                  
+Bust of Hercules               Sculpture  608        Greek                                                                                                                                                                                                                                                  
+Hera                           Painting   501        Greek                                                                                                                                                                                                                                                  
+Davinci Plane                  Sketching  451        Italy                                                                                                                                                                                                                                                  
+Mona Lisa                      Portrait   692        Italy                                                                                                                                                                                                                                                  
+
+SQL> SELECT Artwork_Name, Location_Address
+  2  FROM artworkLocation;
+
+ARTWORK_NAME                   LOCATION_ADDRESS                                                                                                                                                                                                                                                             
+------------------------------ ------------------------------                                                                                                                                                                                                                                               
+Legend of Clyopatra            Egypt                                                                                                                                                                                                                                                                        
+Bust of Hercules               Greek                                                                                                                                                                                                                                                                        
+Hera                           Greek                                                                                                                                                                                                                                                                        
+Davinci Plane                  Italy                                                                                                                                                                                                                                                                        
+Mona Lisa                      Italy                                                                                                                                                                                                                                                                        
+
+SQL> 
+SQL> -- Show the artwork name and it's slides ID
+SQL> SELECT A.Artwork_Name, S.Slides_ID
+  2  FROM Artwork A, Slides S
+  3  WHERE S.Artwork_ID = A.Artwork_ID;
+
+ARTWORK_NAME                   SLIDES_ID                                                                                                                                                                                                                                                                    
+------------------------------ ----------                                                                                                                                                                                                                                                                   
+Legend of Clyopatra            2142354                                                                                                                                                                                                                                                                      
+Legend of Clyopatra            2142355                                                                                                                                                                                                                                                                      
+Legend of Clyopatra            2142356                                                                                                                                                                                                                                                                      
+Bust of Hercules               2142380                                                                                                                                                                                                                                                                      
+Hera                           2142385                                                                                                                                                                                                                                                                      
+Mona Lisa                      2142369                                                                                                                                                                                                                                                                      
+Mona Lisa                      2151323                                                                                                                                                                                                                                                                      
+Mona Lisa                      2142352                                                                                                                                                                                                                                                                      
+
+8 rows selected.
+
+SQL> 
+SQL> -- Create view for artwork and slides info
+SQL> DROP VIEW artworkSlides;
+
+View dropped.
+
+SQL> CREATE VIEW artworkSlides AS
+  2  	     SELECT A.Artwork_ID, A.Artwork_Name, S.Slides_ID
+  3  	     FROM Artwork A, Slides S
+  4  	     WHERE S.Artwork_ID = A.Artwork_ID;
+
+View created.
+
+SQL> 
+SQL> -- Show the artworkSlides view and test it
+SQL> DESC artworkSlides
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ ARTWORK_ID                                                                                                                                                                    NOT NULL CHAR(10)
+ ARTWORK_NAME                                                                                                                                                                           VARCHAR2(30)
+ SLIDES_ID                                                                                                                                                                     NOT NULL CHAR(10)
+
+SQL> SELECT * FROM artworkSlides;
+
+ARTWORK_ID ARTWORK_NAME                   SLIDES_ID                                                                                                                                                                                                                                                         
+---------- ------------------------------ ----------                                                                                                                                                                                                                                                        
+217469     Legend of Clyopatra            2142354                                                                                                                                                                                                                                                           
+217469     Legend of Clyopatra            2142355                                                                                                                                                                                                                                                           
+217469     Legend of Clyopatra            2142356                                                                                                                                                                                                                                                           
+217470     Bust of Hercules               2142380                                                                                                                                                                                                                                                           
+217471     Hera                           2142385                                                                                                                                                                                                                                                           
+217473     Mona Lisa                      2142369                                                                                                                                                                                                                                                           
+217473     Mona Lisa                      2151323                                                                                                                                                                                                                                                           
+217473     Mona Lisa                      2142352                                                                                                                                                                                                                                                           
+
+8 rows selected.
+
+SQL> SELECT Artwork_Name, Slides_ID AS "Slide Number"
+  2  FROM artworkSlides;
+
+ARTWORK_NAME                   Slide Numb                                                                                                                                                                                                                                                                   
+------------------------------ ----------                                                                                                                                                                                                                                                                   
+Legend of Clyopatra            2142354                                                                                                                                                                                                                                                                      
+Legend of Clyopatra            2142355                                                                                                                                                                                                                                                                      
+Legend of Clyopatra            2142356                                                                                                                                                                                                                                                                      
+Bust of Hercules               2142380                                                                                                                                                                                                                                                                      
+Hera                           2142385                                                                                                                                                                                                                                                                      
+Mona Lisa                      2142369                                                                                                                                                                                                                                                                      
+Mona Lisa                      2151323                                                                                                                                                                                                                                                                      
+Mona Lisa                      2142352                                                                                                                                                                                                                                                                      
+
+8 rows selected.
+
+SQL> 
+SQL> -- Show the maintentance info
+SQL> SELECT M.Artwork_ID, A.Artwork_Name, A.Artwork_Medium, A.Artwork_Dimensions, A.Artwork_Weight, L.Location_Address, M.Maintenance_Scheduled
+  2  FROM Maintenance M, Artwork A, artworkLocation L
+  3  WHERE A.Artwork_ID = M.Artwork_ID
+  4  AND L.Location_ID = A.Artwork_Location_ID;
+
+ARTWORK_ID ARTWORK_NAME                   ARTWORK_ME ARTWORK_DIM ARTWO LOCATION_ADDRESS               MAINTENANCE_SCHEDULED                                                                                                                                                                                 
+---------- ------------------------------ ---------- ----------- ----- ------------------------------ ------------------------------                                                                                                                                                                        
+217469     Legend of Clyopatra            Oil        12X11X3     15    Egypt                          Cleaning, Repair                                                                                                                                                                                      
+217473     Mona Lisa                      Portrait   15X12X15    20    Italy                          Cleaning                                                                                                                                                                                              
+
+SQL> 
+SQL> -- Create View for maintentance info
+SQL> DROP VIEW artworkMaintenance;
+
+View dropped.
+
+SQL> CREATE VIEW artworkMaintenance AS
+  2  	     SELECT M.Artwork_ID, A.Artwork_Name, A.Artwork_Medium, A.Artwork_Dimensions, A.Artwork_Weight, L.Location_Address, M.Maintenance_Scheduled
+  3  	     FROM Maintenance M, Artwork A, artworkLocation L
+  4  	     WHERE A.Artwork_ID = M.Artwork_ID
+  5  	     AND L.Location_ID = A.Artwork_Location_ID;
+
+View created.
+
+SQL> 
+SQL> -- Show the artworkMaintenance view and test it
+SQL> DESC artworkMaintenance
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ ARTWORK_ID                                                                                                                                                                    NOT NULL CHAR(10)
+ ARTWORK_NAME                                                                                                                                                                           VARCHAR2(30)
+ ARTWORK_MEDIUM                                                                                                                                                                         VARCHAR2(10)
+ ARTWORK_DIMENSIONS                                                                                                                                                                     CHAR(11)
+ ARTWORK_WEIGHT                                                                                                                                                                         CHAR(5)
+ LOCATION_ADDRESS                                                                                                                                                              NOT NULL VARCHAR2(30)
+ MAINTENANCE_SCHEDULED                                                                                                                                                                  VARCHAR2(30)
+
+SQL> SELECT * FROM artworkMaintenance;
+
+ARTWORK_ID ARTWORK_NAME                   ARTWORK_ME ARTWORK_DIM ARTWO LOCATION_ADDRESS               MAINTENANCE_SCHEDULED                                                                                                                                                                                 
+---------- ------------------------------ ---------- ----------- ----- ------------------------------ ------------------------------                                                                                                                                                                        
+217469     Legend of Clyopatra            Oil        12X11X3     15    Egypt                          Cleaning, Repair                                                                                                                                                                                      
+217473     Mona Lisa                      Portrait   15X12X15    20    Italy                          Cleaning                                                                                                                                                                                              
+
+SQL> SELECT Artwork_Name, Artwork_Medium, Artwork_Dimensions, Artwork_Weight, Location_Address, Maintenance_Scheduled
+  2  FROM artworkMaintenance;
+
+ARTWORK_NAME                   ARTWORK_ME ARTWORK_DIM ARTWO LOCATION_ADDRESS               MAINTENANCE_SCHEDULED                                                                                                                                                                                            
+------------------------------ ---------- ----------- ----- ------------------------------ ------------------------------                                                                                                                                                                                   
+Legend of Clyopatra            Oil        12X11X3     15    Egypt                          Cleaning, Repair                                                                                                                                                                                                 
+Mona Lisa                      Portrait   15X12X15    20    Italy                          Cleaning                                                                                                                                                                                                         
+
+SQL> 
+SQL> -- Show the total number of artwork in the museum
+SQL> SELECT COUNT(Artwork_ID) "Total Artworks"
+  2  FROM Artwork;
+
+Total Artworks                                                                                                                                                                                                                                                                                              
+--------------                                                                                                                                                                                                                                                                                              
+             5                                                                                                                                                                                                                                                                                              
+
+SQL> 
+SQL> -- Create a view to display the toal number of artworks
+SQL> DROP VIEW totalArtwork;
+
+View dropped.
+
+SQL> CREATE VIEW totalArtwork AS
+  2  	     SELECT COUNT(Artwork_ID) "Total Artworks"
+  3  	     FROM Artwork;
+
+View created.
+
+SQL> 
+SQL> -- Show totalArtwork view and test it
+SQL> DESC totalArtwork
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ Total Artworks                                                                                                                                                                         NUMBER
+
+SQL> SELECT * FROM totalArtwork;
+
+Total Artworks                                                                                                                                                                                                                                                                                              
+--------------                                                                                                                                                                                                                                                                                              
+             5                                                                                                                                                                                                                                                                                              
+
+SQL> 
+SQL> -- Create a way to get artwork information about it's acquisition
+SQL> DROP VIEW artworkAcquisition;
+
+View dropped.
+
+SQL> CREATE VIEW artworkAcquisition AS
+  2  	     SELECT Acq.Acquisition_ID, A.Artwork_Name, Acq.Acquisition_Date, Acq.Acquisition_Value, M.Name AS "Name", M.Address AS "Address"
+  3  	     FROM Acquisition Acq, Artwork A, Member M
+  4  	     WHERE Acq.Acquisition_From = 1 AND M.Member_ID = Acq.Acquisition_Member_ID AND A.Artwork_ID = Acq.Artwork_ID
+  5  	     UNION
+  6  	     SELECT Acq.Acquisition_ID, A.Artwork_Name, Acq.Acquisition_Date, Acq.Acquisition_Value, M.Name AS "Name", M.Address AS "Address"
+  7  	     FROM Acquisition Acq, Artwork A, Musuem M
+  8  	     WHERE Acq.Acquisition_From = 2 AND M.Musuem_ID = Acq.Acquisition_Musuem_ID AND A.Artwork_ID = Acq.Artwork_ID
+  9  	     UNION
+ 10  	     SELECT ACq.Acquisition_ID, A.Artwork_Name, Acq.Acquisition_Date, Acq.Acquisition_Value, N.Name AS "Name", N.Address AS "Address"
+ 11  	     FROM Acquisition Acq, Artwork A, NonMember N
+ 12  	     WHERE Acq.Acquisition_From = 3 AND N.NonMember_ID = Acq.Acquisition_NonMember_ID AND A.Artwork_ID = Acq.Artwork_ID;
+
+View created.
+
+SQL> 
+SQL> -- Show artworkAcquisition view and test it
+SQL> DESC artworkAcquisition
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ ACQUISITION_ID                                                                                                                                                                         CHAR(10)
+ ARTWORK_NAME                                                                                                                                                                           VARCHAR2(30)
+ ACQUISITION_DATE                                                                                                                                                                       DATE
+ ACQUISITION_VALUE                                                                                                                                                                      VARCHAR2(12)
+ Name                                                                                                                                                                                   VARCHAR2(30)
+ Address                                                                                                                                                                                VARCHAR2(50)
+
+SQL> SELECT * FROM artworkAcquisition;
+
+ACQUISITIO ARTWORK_NAME                   ACQUISITI ACQUISITION_ Name                           Address                                                                                                                                                                                                     
+---------- ------------------------------ --------- ------------ ------------------------------ --------------------------------------------------                                                                                                                                                          
+54215      Bust of Hercules               15-MAY-11 15,419.21    Tim Smith                      2152 East Westside St, Houston, TX 50171                                                                                                                                                                    
+59082      Hera                           03-JAN-10 20,535.31    Smithsonian                    600 Marland Ave SW, Washington, DC 20002                                                                                                                                                                    
+65265      Davinci Plane                  10-JUN-11 53,142.10    Shaan Wes                      5013 Liberty Ave, Los Angeles, CA 91031                                                                                                                                                                     
+
+SQL> 
+SQL> -- Show unscheduled artwork maintenance info
+SQL> SELECT U.Artwork_ID, A.Artwork_Name, L.Loan_Start_Date, A.Artwork_Dimensions, A.Artwork_Medium, A.Artwork_Weight, U.Unscheduled_Repairs,
+  2  CASE U.Unscheduled_Request
+  3  	     WHEN 'Y' THEN U.Unscheduled_Repairs_Request
+  4  	     ELSE 'None Needed'
+  5  END Unscheduled_Repairs_Requested
+  6  FROM Artwork A, Unscheduled U, Loan L
+  7  WHERE A.Artwork_ID = U.Artwork_ID AND L.Artwork_ID = U.Artwork_ID;
+
+ARTWORK_ID ARTWORK_NAME                   LOAN_STAR ARTWORK_DIM ARTWORK_ME ARTWO UNSCHEDULED_REPAIRS            UNSCHEDULED_REPAIRS_REQUESTED                                                                                                                                                               
+---------- ------------------------------ --------- ----------- ---------- ----- ------------------------------ ------------------------------                                                                                                                                                              
+217469     Legend of Clyopatra            19-JUN-12 12X11X3     Oil        15    Repair, Mend                   Clean                                                                                                                                                                                       
+217473     Mona Lisa                      30-SEP-12 15X12X15    Portrait   20    Clean                          None Needed                                                                                                                                                                                 
+
+SQL> 
+SQL> -- Create view for unscheduled artwork maintenance
+SQL> DROP VIEW unscheduledArtwork;
+
+View dropped.
+
+SQL> CREATE VIEW unscheduledArtwork AS
+  2  	     SELECT U.Artwork_ID, A.Artwork_Name, L.Loan_Start_Date, A.Artwork_Dimensions, A.Artwork_Medium, A.Artwork_Weight, U.Unscheduled_Repairs,
+  3  	     CASE U.Unscheduled_Request
+  4  		     WHEN 'Y' THEN U.Unscheduled_Repairs_Request
+  5  		     ELSE 'None Needed'
+  6  	     END Unscheduled_Repairs_Requested
+  7  	     FROM Artwork A, Unscheduled U, Loan L
+  8  	     WHERE A.Artwork_ID = U.Artwork_ID AND L.Artwork_ID = U.Artwork_ID;
+
+View created.
+
+SQL> 
+SQL> -- Show the unscheduledArtwork view and test it
+SQL> DESC unscheduledArtwork
+ Name                                                                                                                                                                          Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------------------------------
+ ARTWORK_ID                                                                                                                                                                    NOT NULL CHAR(10)
+ ARTWORK_NAME                                                                                                                                                                           VARCHAR2(30)
+ LOAN_START_DATE                                                                                                                                                               NOT NULL DATE
+ ARTWORK_DIMENSIONS                                                                                                                                                                     CHAR(11)
+ ARTWORK_MEDIUM                                                                                                                                                                         VARCHAR2(10)
+ ARTWORK_WEIGHT                                                                                                                                                                         CHAR(5)
+ UNSCHEDULED_REPAIRS                                                                                                                                                                    VARCHAR2(30)
+ UNSCHEDULED_REPAIRS_REQUESTED                                                                                                                                                          VARCHAR2(30)
+
+SQL> SELECT * FROM unscheduledArtwork;
+
+ARTWORK_ID ARTWORK_NAME                   LOAN_STAR ARTWORK_DIM ARTWORK_ME ARTWO UNSCHEDULED_REPAIRS            UNSCHEDULED_REPAIRS_REQUESTED                                                                                                                                                               
+---------- ------------------------------ --------- ----------- ---------- ----- ------------------------------ ------------------------------                                                                                                                                                              
+217469     Legend of Clyopatra            19-JUN-12 12X11X3     Oil        15    Repair, Mend                   Clean                                                                                                                                                                                       
+217473     Mona Lisa                      30-SEP-12 15X12X15    Portrait   20    Clean                          None Needed                                                                                                                                                                                 
+
+SQL> SELECT Artwork_Name, Artwork_Medium, Loan_Start_Date, Unscheduled_Repairs_Requested, Unscheduled_Repairs
+  2  FROM unscheduledArtwork
+  3  WHERE Artwork_ID = '217473';
+
+ARTWORK_NAME                   ARTWORK_ME LOAN_STAR UNSCHEDULED_REPAIRS_REQUESTED  UNSCHEDULED_REPAIRS                                                                                                                                                                                                      
+------------------------------ ---------- --------- ------------------------------ ------------------------------                                                                                                                                                                                           
+Mona Lisa                      Portrait   30-SEP-12 None Needed                    Clean                                                                                                                                                                                                                    
+
+SQL> SPOOL OFF
